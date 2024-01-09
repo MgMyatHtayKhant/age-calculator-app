@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useReducer } from "react";
+import {useReducer } from "react";
 import "./App.scss";
 import moment from "moment";
 
@@ -19,9 +19,9 @@ function App() {
       error_month: "",
       error_year: "",
       dateDiff: {
-        days: "a-",
-        months: "b-",
-        years: "c-"
+        days: "--",
+        months: "--",
+        years: "--"
       }
     }
   );
@@ -94,7 +94,7 @@ function App() {
     let date = moment(temp, "YYYY-MM-DD");
     let is_wrong_date = !date.isValid();
 
-    const error_wrong_date = isSomethingWrong ? false : !is_wrong_date ? false : <p>Must be a valid DATE</p>;
+    const error_wrong_date = isSomethingWrong ? false : !is_wrong_date ? false : <p>Must be a valid date</p>;
 
     let action = {
       error_day,
@@ -134,6 +134,7 @@ function App() {
               placeholder="MM"
               value={state.month}
               onChange={(e) => dispatch({ month: e.target.value })}
+              autoComplete="off"
             />
             <input
               id="input-year"
@@ -141,6 +142,7 @@ function App() {
               placeholder="YYYY"
               value={state.year}
               onChange={(e) => dispatch({ year: e.target.value })}
+              autoComplete="off"
             />
           </div>
           <div className="input-error">
