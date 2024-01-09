@@ -26,8 +26,6 @@ function App() {
     }
   );
 
-  console.log("Running!", state);
-
   function handleDateDiff(date) {
     // Convert both dates to milliseconds
     var date1_ms = new Date(date);
@@ -62,8 +60,6 @@ function App() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    console.log("Running inside!");
 
     let validDay = isValidDate(state.day, 31);
     let validMonth = isValidDate(state.month, 12);
@@ -107,7 +103,6 @@ function App() {
     action = is_wrong_date ? action : { ...action, dateDiff: handleDateDiff(temp) };
 
     dispatch(action);
-    console.log("Submit!");
   }
 
   return (
