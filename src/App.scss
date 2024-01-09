@@ -1,0 +1,154 @@
+main {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--LIGHT-GREY);
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.5rem 0.5rem 5rem 0.5rem;
+  padding: 2rem;
+  background-color: var(--WHITE);
+}
+
+.form {
+  .input-date,
+  .user-input,
+  .input-error {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .input-date label,
+  .user-input input,
+  .input-error p {
+    width: 100%;
+    max-width: 130px;
+  }
+
+  .input-date label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding-bottom: 0.25rem;
+    color: var(--SMOKEY-GREY);
+  }
+
+  .input-date.wrong label {
+    color: var(--LIGHT-RED);
+  }
+
+  .user-input input {
+    padding: 0.25rem 1rem;
+    border: 2px solid var(--LIGHT-GREY);
+    border-radius: 0.25rem;
+    font-weight: 800;
+  }
+
+  .user-input.wrong input {
+    border-color: var(--LIGHT-RED);
+  }
+
+  .input-error {
+    height: 20px;
+  }
+
+  .input-error p {
+    padding-top: 0.25rem;
+    font-size: 11px;
+    color: var(--LIGHT-RED);
+    font-style: italic;
+  }
+
+  .line {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 30px;
+    margin-block: 0.5rem 2rem;
+    border-bottom: 2px solid var(--LIGHT-GREY);
+  }
+
+  .line .submit-btn {
+    position: absolute;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0 0 0.5rem var(--SMOKEY-GREY);
+    background: var(--PURPLE) no-repeat center/30px
+      url("./assets/icon-arrow.svg");
+    cursor: pointer;
+    transition: background-color 0.5s;
+  }
+
+  .line .submit-btn:hover {
+    background-color: var(--OFF-BLACK);
+  }
+}
+
+.display-date {
+  font-size: 3.5rem;
+  font-weight: 800;
+  font-style: italic;
+
+  p {
+    .number {
+      color: var(--PURPLE);
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    margin-inline: 1rem;
+    padding: 3rem 1rem 2rem;
+    border-radius: 1rem 1rem 5rem 1rem;
+  }
+
+  .form {
+    .input-date,
+    .user-input,
+    .input-error {
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .user-input input {
+      padding-inline: 0.25rem;
+    }
+
+    .line {
+      justify-content: center;
+      margin-block: 1.5rem 2.5rem;
+    }
+  }
+}
+
+@media (max-width: 376px) {
+  .container {
+    margin-inline: 0.5rem;
+    padding: 3rem 0.5rem 2rem;
+  }
+
+  .form {
+    .input-date,
+    .user-input,
+    .input-error {
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .user-input input {
+      padding-inline: 0;
+    }
+  }
+
+  .display-date {
+    font-size: 3rem;
+  }
+}
