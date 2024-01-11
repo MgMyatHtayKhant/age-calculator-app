@@ -26,31 +26,42 @@ function App() {
     }
   );
 
-  function handleDateDiff(date) {
-    // Convert both dates to milliseconds
-    var date1_ms = new Date(date);
-    var date2_ms = Date.now();
+  function handleDateDiff() {
+    // Credit to https://github.com/GragertVD/age-calculator-app-main
 
-    // Calculate the difference in milliseconds
-    var difference_ms = date2_ms - date1_ms;
+    let day = state.day;
+    let month = state.month;
+    let year = state.year;
 
-    // Convert back to days, months, and years
-    var one_day = 1000 * 60 * 60 * 24;
-    var one_month = one_day * 30;
-    var one_year = one_month * 12;
-
-    var years = Math.floor(difference_ms / one_year);
-    difference_ms = difference_ms % one_year;
-
-    var months = Math.floor(difference_ms / one_month);
-    difference_ms = difference_ms % one_month;
-
-    var days = Math.floor(difference_ms / one_day);
-
+    let date = new Date(year, month - 1, day);
+    let currentData = new Date();
+    
+    let age_year = currentData.getFullYear() - date.getFullYear();
+    let age_mounth = 0;
+    let age_day = 0;
+    if (currentData < new Date(currentData.getFullYear(), month - 1, day)) {
+      age_year = age_year - 1;
+      age_mounth = currentData.getMonth() + 1;
+      age_day = currentData.getDate();
+    } else {
+      if (currentData.getMonth() + 1 === month) {
+        age_mounth = 0;
+        age_day = currentData.getDate() - day;
+        console.log(age_day);
+      } else {
+        age_mounth = currentData.getMonth() + 1 - month;
+        if (currentData.getDate() < day) {
+          age_mounth = age_mounth - 1;
+          age_day = currentData.getDate() + new Date(currentData.getFullYear(), currentData.getMonth(), 0).getDate() - day;
+        } else {
+          age_day = currentData.getDate() - day;
+        }
+      } }
+    
     return {
-      years: years,
-      months: months,
-      days: days
+      years: age_year,
+      months: age_mounth,
+      days: age_day
     };
   }
 
@@ -100,7 +111,7 @@ function App() {
       is_wrong_date
     };
 
-    action = is_wrong_date ? action : { ...action, dateDiff: handleDateDiff(temp) };
+    action = is_wrong_date ? action : { ...action, dateDiff: handleDateDiff() };
 
     dispatch(action);
   }
