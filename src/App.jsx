@@ -26,41 +26,60 @@ function App() {
     }
   );
 
-  function handleDateDiff() {
-    // Credit to https://github.com/GragertVD/age-calculator-app-main
+  const daysInFebruary = (year) => year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0) ? 29 : 28;  
 
-    let day = state.day;
-    let month = state.month;
-    let year = state.year;
-
-    let date = new Date(year, month - 1, day);
-    let currentData = new Date();
-    
-    let age_year = currentData.getFullYear() - date.getFullYear();
-    let age_mounth = 0;
-    let age_day = 0;
-    if (currentData < new Date(currentData.getFullYear(), month - 1, day)) {
-      age_year = age_year - 1;
-      age_mounth = currentData.getMonth() + 1;
-      age_day = currentData.getDate();
+  const getMonthDays = (month, year) => {
+    let numberOfDays = 0
+    if (month === 2) {
+        numberOfDays = daysInFebruary(year);
+    } else if (month === 4 || month === 6 || month === 9 || month === 11) {
+        numberOfDays = 30;
     } else {
-      if (currentData.getMonth() + 1 === month) {
-        age_mounth = 0;
-        age_day = currentData.getDate() - day;
-      } else {
-        age_mounth = currentData.getMonth() + 1 - month;
-        if (currentData.getDate() < day) {
-          age_mounth = age_mounth - 1;
-          age_day = currentData.getDate() + new Date(currentData.getFullYear(), currentData.getMonth(), 0).getDate() - day;
-        } else {
-          age_day = currentData.getDate() - day;
-        }
-      } }
+        numberOfDays = 31;
+    }
+    return numberOfDays
+}
+
+
+  function handleDateDiff(bDay, bMonth, bYear) {
+    // Credit to https://github.com/paulina-kottlewska/age-calculator-app
+    
+    let currentDate = new Date();
+    let currentYear = currentDate.getFullYear();
+    let currentMonth = currentDate.getMonth() + 1;
+    let currentDay = currentDate.getDate();
+
+    //Years
+    let years = currentYear - bYear;
+    // Decrease a year if the current month is less than the birth month
+    // Or if the current month is equal to the birth month and current day is less than the birth day, decrease a year
+    if(currentMonth < bMonth || (currentMonth === bMonth && currentDay < bDay)) {
+        years--;
+    }
+ 
+    // Months 
+    let months = currentMonth - bMonth;
+
+    if(currentDay < bDay) {
+        months--;
+    }
+    // If months are negative, add 12
+    if(months < 0) {
+        months+= 12;
+    }
+
+    //Days 
+    let days = currentDay - bDay;
+    // If days are negative, find the number of days in the previous month and add to the negative days
+    if(days < 0) {
+        let daysInPreviousMonth = getMonthDays(currentMonth - 1 === 0 ? 12 : currentMonth - 1, currentYear)
+        days += daysInPreviousMonth;
+    }
     
     return {
-      years: age_year,
-      months: age_mounth,
-      days: age_day
+      years,
+      months,
+      days
     };
   }
 
@@ -110,7 +129,7 @@ function App() {
       is_wrong_date
     };
 
-    action = is_wrong_date ? action : { ...action, dateDiff: handleDateDiff() };
+    action = is_wrong_date ? action : { ...action, dateDiff: handleDateDiff(state.day, state.month, state.year) };
 
     dispatch(action);
   }
