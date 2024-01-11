@@ -47,7 +47,6 @@ function App() {
       if (currentData.getMonth() + 1 === month) {
         age_mounth = 0;
         age_day = currentData.getDate() - day;
-        console.log(age_day);
       } else {
         age_mounth = currentData.getMonth() + 1 - month;
         if (currentData.getDate() < day) {
